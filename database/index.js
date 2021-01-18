@@ -1,18 +1,61 @@
+/* eslint-disable quotes */
 /* eslint-disable no-console */
-const mysql = require('mysql');
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'me',
-  password: 'secret',
-  database: 'my_db',
+const { connection } = require('./config.js');
+
+connection.connect((err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('the connected to the database LEGO');
+  }
 });
 
-connection.connect();
+const addProduct = (productName, callback) => {
+  const insertQury = `INSERT INTO products (product_name) VALUES ("${productName}")`;
+  connection.query(insertQury, (err, data) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, data);
+    }
+  });
+};
 
-connection.query('SELECT 1 + 1 AS solution', (error, results) => {
-  if (error) throw error;
-  console.log('The solution is: ', results[0].solution);
-});
+const addImg = (img, id, callback) => {
+  const imgQuery = `INSERT INTO images (product_image, product_id) VALUES ("${img}", "${id}")`;
+  connection.query(imgQuery, (err, data) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, data);
+    }
+  });
+};
 
-connection.end();
+const getImgs = (qry, callback) => {
+  connection.query('SELECT * FROM images', (err, data) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, data);
+    }
+  });
+};
+
+const getProducts = (qry, callback) => {
+  connection.query('SELECT * FROM products', (err, data) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, data);
+    }
+  });
+};
+
+module.exports = {
+  addImg,
+  addProduct,
+  getProducts,
+  getImgs,
+};
