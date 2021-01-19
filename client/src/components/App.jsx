@@ -12,13 +12,18 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    $.ajax({
-      method: 'GET',
-      url: 'http://localhost:3000/lego/products',
-      success: (data) => {
-        console.log(data);
-      },
-    });
+    const productsReq = () => {
+      $.ajax({
+        method: 'GET',
+        url: '/lego/products',
+        success: (data) => {
+          console.log(data);
+          return '200';
+        },
+      });
+    };
+    productsReq();
+    // we will make a post to the imgs end point, pictures are just hard coded into the right place.
   }
 
   render() {
