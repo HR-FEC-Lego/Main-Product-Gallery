@@ -22,8 +22,8 @@ const addProduct = (productName, callback) => {
   });
 };
 
-const addImg = (img, id, callback) => {
-  const imgQuery = `INSERT INTO images (product_image, product_id) VALUES ("${img}", "${id}")`;
+const addImg = (img, id, imgId, callback) => {
+  const imgQuery = `INSERT INTO images (product_image, product_id, image_id) VALUES ("${img}", "${id}", "${imgId}")`;
   connection.query(imgQuery, (err, data) => {
     if (err) {
       callback(err);
@@ -34,7 +34,8 @@ const addImg = (img, id, callback) => {
 };
 
 const getImgs = (qry, callback) => {
-  connection.query('SELECT * FROM images', (err, data) => {
+  connection.query('SELECT * FROM images WHERE product_id=1', (err, data) => {
+    console.log('sam');
     if (err) {
       callback(err);
     } else {
@@ -44,7 +45,7 @@ const getImgs = (qry, callback) => {
 };
 
 const getProducts = (qry, callback) => {
-  connection.query('SELECT * FROM products', (err, data) => {
+  connection.query('SELECT * FROM products WHERE product_id=1', (err, data) => {
     if (err) {
       callback(err);
     } else {
