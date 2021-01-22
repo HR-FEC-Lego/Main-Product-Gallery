@@ -1,0 +1,20 @@
+.MainImage {
+  display: flex;
+  height: 8rem;
+  width: auto;
+
+  .MainImageZoom {
+    height: 8rem;
+    width: auto;
+  }
+
+  img {
+    object-fit: contain;
+    background-color: red;
+    padding: .1rem;
+    vertical-align: middle;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+  }
+}
