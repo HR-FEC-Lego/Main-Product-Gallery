@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable no-else-return */
 /* eslint-disable react/destructuring-assignment */

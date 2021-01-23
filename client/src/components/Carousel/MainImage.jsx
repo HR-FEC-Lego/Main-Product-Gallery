@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -6,12 +9,12 @@
 
 import React from 'react';
 import './MainImageS.scss';
+import ImageList from './ImageList';
 
-const MainImage = ({ main }) => {
+const MainImage = ({ main, changeMainPicture, carouselDown, carouselUp }) => {
   const alert = () => {
-    console.log(('clicked'));
-  };
 
+  };
   return (
     <div className="MainImage">
       <div className="MainImageZoom" id="MainImageZoom" onClick={alert}>

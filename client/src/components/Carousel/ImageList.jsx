@@ -5,6 +5,7 @@
 /* eslint-disable arrow-body-style */
 import React from 'react';
 import ImageListItem from './ImageListItem';
+import MainImage from './MainImage';
 import './ImageListS.scss';
 
 class ImageList extends React.Component {
@@ -13,12 +14,12 @@ class ImageList extends React.Component {
     this.state = {
       startingIndexForImageCarosel: 0,
     };
+    this.carouselUp = this.carouselUp.bind(this);
     this.carouselDown = this.carouselDown.bind(this);
-    this.carouselUP = this.carouselUP.bind(this);
     this.changeMainPicture = this.changeMainPicture.bind(this);
   }
 
-  carouselUP() {
+  carouselDown() {
     const { startingIndexForImageCarosel } = this.state;
     const { images } = this.props;
     if (images.length - 7 === startingIndexForImageCarosel) {
@@ -29,7 +30,7 @@ class ImageList extends React.Component {
     });
   }
 
-  carouselDown() {
+  carouselUp() {
     const { startingIndexForImageCarosel } = this.state;
     if (startingIndexForImageCarosel === 0) {
       return;
@@ -45,7 +46,6 @@ class ImageList extends React.Component {
     let targetIndex = Number(index);
     let difference = 0;
     const middleIndex = startingIndexForImageCarosel + 3;
-
     setSelectedImageIndex(index);
     if (targetIndex === middleIndex) {
       return;
@@ -70,10 +70,12 @@ class ImageList extends React.Component {
     const { images, selectedImageIndex } = this.props;
     const { startingIndexForImageCarosel } = this.state;
     const rangeOfRenderingCarosel = images.slice(startingIndexForImageCarosel, startingIndexForImageCarosel + 7);
-
     return (
       <div className="ImageList">
-        <button type="button" onClick={this.carouselUP}>up</button>
+        <div className="left">
+          <button type="button" onClick={this.carouselDown}>TEST</button>
+        </div>
+        <button type="button" onClick={this.carouselUp}>up</button>
         {
       rangeOfRenderingCarosel.map((item, index) => {
         const imageIndex = index + startingIndexForImageCarosel;
@@ -83,8 +85,13 @@ class ImageList extends React.Component {
       })
         }
         <button type="button" onClick={this.carouselDown}>down</button>
+        <div className="right">
+          <button type="button" onClick={this.carouselUp}>TEST</button>
+        </div>
       </div>
+
     );
   }
 }
+
 export default ImageList;
