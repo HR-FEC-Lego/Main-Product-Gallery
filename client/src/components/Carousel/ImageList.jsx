@@ -5,7 +5,6 @@
 /* eslint-disable arrow-body-style */
 import React from 'react';
 import ImageListItem from './ImageListItem';
-import MainImage from './MainImage';
 import './ImageListS.scss';
 
 class ImageList extends React.Component {
@@ -17,6 +16,18 @@ class ImageList extends React.Component {
     this.carouselUp = this.carouselUp.bind(this);
     this.carouselDown = this.carouselDown.bind(this);
     this.changeMainPicture = this.changeMainPicture.bind(this);
+  }
+
+  componentDidMount() {
+    const { setSelectedImageIndex } = this.props;
+    setSelectedImageIndex(3);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { selectedImageIndex } = this.props;
+    if (prevProps.selectedImageIndex !== selectedImageIndex) {
+      this.changeMainPicture(selectedImageIndex);
+    }
   }
 
   carouselDown() {
@@ -42,11 +53,9 @@ class ImageList extends React.Component {
 
   changeMainPicture(index) {
     const { startingIndexForImageCarosel } = this.state;
-    const { setSelectedImageIndex } = this.props;
     let targetIndex = Number(index);
     let difference = 0;
     const middleIndex = startingIndexForImageCarosel + 3;
-    setSelectedImageIndex(index);
     if (targetIndex === middleIndex) {
       return;
     }
@@ -67,29 +76,31 @@ class ImageList extends React.Component {
   }
 
   render() {
-    const { images, selectedImageIndex } = this.props;
-    const { startingIndexForImageCarosel } = this.state;
+    const { images, selectedImageIndex, setSelectedImageIndex } = this.props;
+    let { startingIndexForImageCarosel } = this.state;
+
+    if (startingIndexForImageCarosel < 0) {
+      startingIndexForImageCarosel = 0;
+    } else if (startingIndexForImageCarosel + 7 > images.length) {
+      startingIndexForImageCarosel = images.length - 7;
+    }
+
     const rangeOfRenderingCarosel = images.slice(startingIndexForImageCarosel, startingIndexForImageCarosel + 7);
     return (
       <div className="ImageList">
-        <div className="left">
-          <button type="button" onClick={this.carouselDown}>TEST</button>
-        </div>
-        <button type="button" onClick={this.carouselUp}>up</button>
+
+        <button className="button" type="button" onClick={this.carouselUp}>▲</button>
         {
       rangeOfRenderingCarosel.map((item, index) => {
         const imageIndex = index + startingIndexForImageCarosel;
         return (
-          <ImageListItem imgContainer={item} key={imageIndex} handleChange={this.changeMainPicture} id={imageIndex} isSelected={selectedImageIndex === imageIndex} />
+          <ImageListItem imgContainer={item} key={imageIndex} handleChange={setSelectedImageIndex} id={imageIndex} isSelected={selectedImageIndex === imageIndex} />
         );
       })
         }
-        <button type="button" onClick={this.carouselDown}>down</button>
-        <div className="right">
-          <button type="button" onClick={this.carouselUp}>TEST</button>
-        </div>
-      </div>
+        <button className="button" type="button" onClick={this.carouselDown}>▼</button>
 
+      </div>
     );
   }
 }
